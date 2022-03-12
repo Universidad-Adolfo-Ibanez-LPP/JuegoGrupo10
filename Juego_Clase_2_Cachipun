@@ -1,0 +1,211 @@
+#include <stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+/*
+Integrantes del grupo:
+Julio Gordo Gómez
+Agustín Guerrero Pinto
+*/
+
+void Bienvenida(void){
+  printf("Bienvenido al cachipun\n");
+  printf("==========================================\n");
+}
+/*
+Procedimiento que da la Bienvenida al jugador
+*/
+
+void eleccion(char* elec,char array1[][10], char array2[][10], char array3[][10]){
+  printf("Elige: Piedra, Papel o Tijera\n");
+  scanf("%s",elec);
+  printf("==========================================\n");
+  if(recorrer(elec, array1, array2, array3)==0){
+    printf("Por favor, seleccione un valor valido...\n");
+    eleccion(elec, array1, array2, array3);
+  }
+}
+/*
+Procedimiento que recibe el elemento seleccionado por el
+jugador, da a elegir entre piedra, papel o tijera.
+
+Llama a la funcion recorrer, en caso de que ninguno de los
+valores ingresados por el usuario corresponda a los
+elementos del juego. En dicho caso, la funcion se llama
+a sí misma.
+
+Parametros:
+char* elec: variable donde se guarda la eleccion del jugador
+char array1[][10]: arreglo de posibles piedras
+char array2[][10]: arreglo de posibles papeles
+char array3[][10]: arreglo de posibles tijeras
+*/
+
+char* nuevo_valor(char* elec, char array1[][10], char array2[][10], char array3[][10]){
+  for(int i = 0; i < 4; i++){
+    if(strcmp(elec,array1[i])==0){
+      return "Piedra";
+    }
+  }
+  for(int i = 0; i < 4; i++){
+    if(strcmp(elec,array2[i])==0){
+      return "Papel";
+    }
+  }
+  for(int i = 0; i < 4; i++){
+    if(strcmp(elec,array3[i])==0){
+      return "Tijera";
+    }
+  }
+  return NULL;
+}
+/*
+Funcion que retorna el elemento seleccionado por el jugador
+con una lijera modificacion. Esta es que el elemento, lleve
+la primera letra en mayuscula, y que además este en singular.
+Esto se hace con el fin de hacer una comparacion menos
+engorrosa al momento de verificar si el jugador pierde o gana
+
+Parametros:
+char* elec: eleccion del jugador
+El resto, mismos parametros de la funcion eleccion()
+*/
+
+int recorrer(char* elec, char array1[][10], char array2[][10], char array3[][10]){
+  for(int i = 0; i < 4; i++){
+    if(strcmp(elec,array1[i])==0){
+      return 1;
+    }
+  }
+  for(int i = 0; i < 4; i++){
+    if(strcmp(elec,array2[i])==0){
+      return 1;
+    }
+  }
+  for(int i = 0; i < 4; i++){
+    if(strcmp(elec,array3[i])==0){
+      return 1;
+    }
+  }
+  return 0;
+}
+/*
+Funcion que verifica si la eleccion del usuario corresponde
+a los elementos del juego, recorriendo arreglos compuestos
+por diferentes formas de referirse al elemento, que son 
+comunes en nuestro lenguje. Si esta dentro de las 3 listas 
+(separadas en distintas formas de referirse a piedra, papel
+o tijera), retorna un 1, en caso contrrio, retorna un 0
+
+Parametros:
+Mismos parametros de la funcion nuevo_valor()
+*/
+
+int verificar(char* elec2, char value[], char Valores[][10]){
+  if(strcmp(elec2,Valores[0])==0){
+    if(strcmp(value,Valores[0])==0){
+      return 0;
+    }
+    else if(strcmp(value,Valores[1])==0){
+      return -1;
+    }
+    else{
+      return 1;
+    }
+  }
+  else if(strcmp(elec2,Valores[1])==0){
+    if(strcmp(value,Valores[0])==0){
+      return 1;
+    }
+    else if(strcmp(value,Valores[1])==0){
+      return 0;
+    }
+    else{
+      return -1;
+    }
+  }
+  else{
+    if(strcmp(value,Valores[0])==0){
+      return -1;
+    }
+    else if(strcmp(value,Valores[1])==0){
+      return 1;
+    }
+    else{
+      return 0;
+    }
+  }
+}
+/*
+Funcion que verifica si el jugador gana o pierde en este intento, si el jugador gana, retorna un 1. Si el jugador pierde, retorna un -1. Si el jugador tiene un empate, retorna un 0
+
+Parametros:
+char* elec2: eleccion del jugador modificada en la funcion nuevo_valor()
+char* value[]: valor random de piedra, papel o tijera
+char Valores[][10]: arreglo de posibles valores que puede tomar el PC
+*/
+
+void tablero(char* elec2, char value[]){
+  printf("Ca");
+  sleep(1);
+  printf("chi");
+  sleep(1);
+  printf("pun\n");
+  sleep(1);
+  printf("  Tu       PC\n");
+  printf("%s", elec2);
+  printf(" vs ");
+  printf("%s", value);
+  printf("\n");
+  printf("==========================================\n");
+}
+/*
+Procedimiento que muestra el nombre del juego, y el valor 
+que el usuario eligio vs el valor random del PC
+
+Parametros:
+Mismos parametros de la funcion verificar, menos char Valores[][10]
+*/
+
+void print_result(int result, char* elec2, char value[]){
+  tablero(elec2, value);
+  if(result==1){
+    printf("Felicidades!!!\n");
+    printf("Has ganado!!!");
+  }
+  else if(result==-1){
+    printf("Que mal... perdiste!!!\n");
+    printf("Intentalo otra vez!!!");
+  }
+  else{
+    printf("Un empate!!!\n");
+    printf("Intentalo otra vez!!!");
+  }
+}
+/*
+Procedimiento que imprime un texto en funcion de si el
+jugador gana, pierde o empata.
+
+Parametros:
+int result: valor que representa si el jugador gana, pierde o empata (1,-1,0 respectivamente)
+El resto, mismos parametros de la funcion tablero()
+*/
+
+int main(void){
+  srand(time(NULL));
+  int Gana_Empata_Pierde;
+  int n_random = rand() % 3;
+  char elec[50];
+  char* elec2;
+  char Piedras[4][10] = {"Piedra", "piedra", "Piedras","piedras"};
+  char Papeles[4][10] = {"Papel","papel", "Papeles", "papeles"};
+  char Tijeras[4][10]={"Tijera", "tijera", "Tijeras", "tijeras"};
+  char Valores[3][10] = {"Piedra", "Papel", "Tijera"};
+  char* value = Valores[n_random];
+  Bienvenida();
+  eleccion(elec, Piedras, Papeles, Tijeras);
+  elec2 = nuevo_valor(elec, Piedras, Papeles, Tijeras);
+  Gana_Empata_Pierde = verificar(elec2, value, Valores);
+  print_result(Gana_Empata_Pierde, elec2, value);
+  return 0;
+}
