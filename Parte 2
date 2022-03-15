@@ -1,0 +1,108 @@
+int verificar(char* elec2, char value[], char Valores[][10]){
+  if(strcmp(elec2,Valores[0])==0){
+    if(strcmp(value,Valores[0])==0){
+      return 0;
+    }
+    else if(strcmp(value,Valores[1])==0){
+      return -1;
+    }
+    else{
+      return 1;
+    }
+  }
+  else if(strcmp(elec2,Valores[1])==0){
+    if(strcmp(value,Valores[0])==0){
+      return 1;
+    }
+    else if(strcmp(value,Valores[1])==0){
+      return 0;
+    }
+    else{
+      return -1;
+    }
+  }
+  else{
+    if(strcmp(value,Valores[0])==0){
+      return -1;
+    }
+    else if(strcmp(value,Valores[1])==0){
+      return 1;
+    }
+    else{
+      return 0;
+    }
+  }
+}
+/*
+Funcion que verifica si el jugador gana o pierde en este intento, si el jugador gana, retorna un 1. Si el jugador pierde, retorna un -1. Si el jugador tiene un empate, retorna un 0
+
+Parametros:
+char* elec2: eleccion del jugador modificada en la funcion nuevo_valor()
+char* value[]: valor random de piedra, papel o tijera
+char Valores[][10]: arreglo de posibles valores que puede tomar el PC
+*/
+
+void tablero(char* elec2, char value[]){
+  printf("Ca");
+  sleep(1);
+  printf("chi");
+  sleep(1);
+  printf("pun\n");
+  sleep(1);
+  printf("  Tu       PC\n");
+  printf("%s", elec2);
+  printf(" vs ");
+  printf("%s", value);
+  printf("\n");
+  printf("==========================================\n");
+}
+/*
+Procedimiento que muestra el nombre del juego, y el valor 
+que el usuario eligio vs el valor random del PC
+
+Parametros:
+Mismos parametros de la funcion verificar, menos char Valores[][10]
+*/
+
+void print_result(int result, char* elec2, char value[]){
+  tablero(elec2, value);
+  if(result==1){
+    printf("Felicidades!!!\n");
+    printf("Has ganado!!!");
+  }
+  else if(result==-1){
+    printf("Que mal... perdiste!!!\n");
+    printf("Intentalo otra vez!!!");
+  }
+  else{
+    printf("Un empate!!!\n");
+    printf("Intentalo otra vez!!!");
+  }
+}
+/*
+Procedimiento que imprime un texto en funcion de si el
+jugador gana, pierde o empata.
+
+Parametros:
+int result: valor que representa si el jugador gana, pierde o empata (1,-1,0 respectivamente)
+El resto, mismos parametros de la funcion tablero()
+*/
+
+int main(void){
+  srand(time(NULL));
+  int Gana_Empata_Pierde;
+  int n_random = rand() % 3;
+  char elec[50];
+  char* elec2;
+  char Piedras[4][10] = {"Piedra", "piedra", "Piedras","piedras"};
+  char Papeles[4][10] = {"Papel","papel", "Papeles", "papeles"};
+  char Tijeras[4][10]={"Tijera", "tijera", "Tijeras", "tijeras"};
+  char Valores[3][10] = {"Piedra", "Papel", "Tijera"};
+  char* value = Valores[n_random];
+  Bienvenida();
+  eleccion(elec, Piedras, Papeles, Tijeras);
+  elec2 = nuevo_valor(elec, Piedras, Papeles, Tijeras);
+  Gana_Empata_Pierde = verificar(elec2, value, Valores);
+  print_result(Gana_Empata_Pierde, elec2, value);
+  return 0;
+}
